@@ -48,7 +48,7 @@ const Sidebar = () => {
         <li className="mb-1">
           <div
             onClick={() => toggleMenu(path)}
-            className={`flex items-center justify-between px-4 py-3 rounded-lg hover:bg-cyan-800 hover:bg-opacity-10 cursor-pointer transition-all ${depth === 0 ? "font-medium" : "text-sm"
+            className={`flex items-center justify-between px-2 py-3 rounded-lg hover:bg-cyan-800 hover:bg-opacity-10 cursor-pointer transition-all ${depth === 0 ? "font-medium" : "text-sm"
               }`}
           >
             <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ const Sidebar = () => {
           ))}
         </div>
 
-        <div className="border-t border-cyan-700 p-4 flex items-center justify-between bg-black/20">
+        <div className="border-t border-cyan-700 flex items-center justify-between bg-black/20">
           <div className="flex items-center gap-3">
             <div>
               <p className="text-sm font-semibold">{user}</p>

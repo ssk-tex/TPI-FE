@@ -51,7 +51,7 @@ export const menuDataNrlm = [
     type: "section",
     title: "MIS",
     items: [
-      { label: "MIS Report", icon: "file", to: "/fto-list" },
+      { label: "MIS Report", icon: "file", to: "/mis" },
     ],
   },
 ];
@@ -99,7 +99,7 @@ export const menuDataOmmas = [
     type: "section",
     title: "MIS",
     items: [
-      { label: "MIS Report", icon: "file", to: "/fto-list" },
+      { label: "MIS Report", icon: "file", to: "/mis" },
     ],
   },
 ];

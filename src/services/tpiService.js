@@ -47,7 +47,7 @@ export const fetchJITMSDetails = async (payload) => {
 /* ------------------------------- fetch JIT State allocatoion --------------------------------- */
 export const fetchJITSanctionDetails = async (payload) => {
   try {
-    const response = await axios.post(`${url}/jit/fetch-state-allocations`,payload);
+    const response = await axios.post(`${url}/jit/fetch-state-allocations`, payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -298,5 +298,13 @@ export const msDetailsSend2Ommas = async (payload) => {
 // }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-                                    AWWAS
+                                                                        MIS 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+export const fetchMisReport4Fto = async (payload) => {
+  try {
+    const response = await axios.post(`${url}/jit/fto-mis-report`, payload);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+} 
