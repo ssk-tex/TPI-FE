@@ -8,6 +8,6 @@
 const LSB = "http://127.0.0.1:2031/api/v1";
 const PSB = "https://train-ifms.wb.gov.in/wbjit_tpi_utils/v1";
 
-export const isDev = true;
+export const isDev = false;
 
 export const URL = isDev ? LSB : PSB;
