@@ -60,9 +60,9 @@ export function MSsend2Scheme() {
                         setFinYear(data.finYear);
                         data.data.forEach((item, i) => {
                             const row = {
-                                motherSanctionNo: item.motherSanctionNo,
-                                motherSanctionDate: DateTimeFormatter(item.motherSanctionDate),
-                                totalAmount: item.totalAmount,
+                                motherSanctionNo: item.motherSancOrderNumber,
+                                motherSanctionDate: item.motherSanctionDate.split("-").reverse().join("-"),
+                                totalAmount: item.stateSancOrderAmt,
                                 SentTimestamp: (item.omamsSentTimestamp !== null) ? DateTimeFormatter(item.omamsSentTimestamp) : "-",
                                 status: (item.ommasSentStatus === '1') ? "Failed" : item.ommasSentStatusDescription,
                             };
@@ -70,7 +70,7 @@ export function MSsend2Scheme() {
                                 tableDataSend.push(row);
                             } else {
                                 tableDataYet2Send.push(row);
-                                setSendBtn(true);
+                                // setSendBtn(true);
                             }
                         });
                         break;
@@ -78,10 +78,9 @@ export function MSsend2Scheme() {
                         data = { data: [] };
                         break;
                 }
-
-
                 setSendList(tableDataSend);
                 setYet2SendList(tableDataYet2Send);
+                if (yet2SendList.length > 0) {setSendBtn(true);}
             } catch (error) {
                 console.log('error message', error.message);
 

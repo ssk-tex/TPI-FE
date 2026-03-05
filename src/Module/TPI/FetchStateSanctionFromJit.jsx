@@ -16,7 +16,7 @@ export function FetchStateSanctionFromJit() {
     const [sendList, setSendList] = useState([]);
     const [yet2GenList, setYet2GenList] = useState([]);
     const [error, setError] = useState(null);
-    const [sendBtn, setSendBtn] = useState(false);
+    const [sendBtn, setSendBtn] = useState(true);
     const [genBtn, setGenBtn] = useState(false);
     const [wallet, setWallet] = useState([]);
     const [page, setPage] = useState(0);
@@ -88,15 +88,16 @@ export function FetchStateSanctionFromJit() {
 
                 if (item.activeFlag === 2) {
                     tableDataSend.push(row);
-                    setGenBtn(false);
-                    setSendBtn(false);
+                    if (genBtn) { setGenBtn(false); }
+                    // setSendBtn(false);
                 } else if (item.activeFlag === 0) {
                     tableDataYet2Send.push(row);
-                    setGenBtn(true);
-                    setSendBtn(false);
+                    if (!genBtn) { setGenBtn(true); }
+
+                    // setSendBtn(false);
                 } else {
-                    setGenBtn(false);
-                    setSendBtn(true);
+                    // setGenBtn(false);
+                    // setSendBtn(true);
                 }
             });
             setSendList(tableDataSend);
@@ -110,9 +111,9 @@ export function FetchStateSanctionFromJit() {
         }
     };
 
-    // useEffect(() => {
-    //     loadData();
-    // }, []);
+    useEffect(() => {
+        loadData();
+    }, []);
 
     /*-------------------------------------
          🟦 Common Mapping Function 
@@ -144,7 +145,6 @@ export function FetchStateSanctionFromJit() {
                 page,
                 size: 5,
             });
-
             if (!res.data || res.data.length === 0) {
                 setHasMore(false);
                 setLoading(false);
@@ -167,7 +167,7 @@ export function FetchStateSanctionFromJit() {
     useEffect(() => {
         if (!hasMore) return;
         loadDefaultWallet();
-        loadData()
+        // loadData()
     }, [page]);
 
     const sendData = async (id) => {
@@ -237,7 +237,7 @@ export function FetchStateSanctionFromJit() {
                     icon: 'error',
                 });
             }
-            navigate(0);
+            // navigate(0);
         } else {
             let ws = [];
             wallet.forEach(item => {
@@ -270,12 +270,12 @@ export function FetchStateSanctionFromJit() {
                         icon: "error",
                         title: "Failed",
                         html: `
-                                            <div style="text-align:left;">
-                                                <b>The following mother sanction(s) failed:</b><br><br>
-                                                ${failedList
+                                <div style="text-align:left;">
+                                    <b>The following mother sanction(s) failed:</b><br><br>
+                                    ${failedList
                                 .map(x => `• <b>${x.motherSancNo}</b> — ${x.message}`)
                                 .join("<br>")}
-                                                </div>
+                                    </div>
                                             `,
                         confirmButtonText: "OK",
                     });

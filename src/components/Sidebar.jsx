@@ -1,6 +1,6 @@
 // components/Sidebar.jsx
 import React, { useState } from "react";
-import { FaAngleRight, FaAngleDown, FaDatabase, FaUniversity, FaFileAlt, FaWallet } from "react-icons/fa";
+import { FaAngleRight, FaAngleDown, FaDatabase, FaUniversity, FaFileAlt, FaWallet, FaBars } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSchemeDetailsStore } from "../store/schemeStore";
 import { menuDataNrlm, menuDataOmmas } from "../config/config";
@@ -15,7 +15,7 @@ const iconMap = {
 };
 
 const Sidebar = () => {
-  const {userData} = useAuthStore();
+  const { userData } = useAuthStore();
   const navigate = useNavigate();
   const [user, setUser] = useState(userData.username);
   const [role, setRole] = useState(userData.userRole);
@@ -94,9 +94,15 @@ const Sidebar = () => {
 
         {/* ===== Top Content ===== */}
         <div className="p-6 flex-1 overflow-y-auto">
-          <h2 className="text-2xl font-bold text-cyan-400 mb-8 border-b border-cyan-700 pb-3">
-            Dashboard
-          </h2>
+          <div className="flex justify-between mb-8 border-b border-cyan-700 pb-3">
+            <h2 className="text-2xl font-bold text-cyan-400">
+              Dashboard
+            </h2>
+
+            <button onClick={() => console.log("haloom")} className="p-2 rounded-lg hover:bg-cyan-800 hover:bg-opacity-30 transition-all duration-200 text-cyan-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500">
+              <FaBars className="text-lg" />
+            </button>
+          </div>
 
           {menuData.map((section, idx) => (
             <div key={idx} className="mb-10">
@@ -112,7 +118,7 @@ const Sidebar = () => {
           ))}
         </div>
 
-        <div className="border-t border-cyan-700 flex items-center justify-between bg-black/20">
+        <div className="border-t p-5 border-cyan-700 flex items-center justify-between bg-black/20">
           <div className="flex items-center gap-3">
             <div>
               <p className="text-sm font-semibold">{user}</p>
