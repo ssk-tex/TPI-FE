@@ -98,10 +98,10 @@ const Sidebar = () => {
             <h2 className="text-2xl font-bold text-cyan-400">
               Dashboard
             </h2>
-
+{/* 
             <button onClick={() => console.log("haloom")} className="p-2 rounded-lg hover:bg-cyan-800 hover:bg-opacity-30 transition-all duration-200 text-cyan-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500">
               <FaBars className="text-lg" />
-            </button>
+            </button> */}
           </div>
 
           {menuData.map((section, idx) => (
