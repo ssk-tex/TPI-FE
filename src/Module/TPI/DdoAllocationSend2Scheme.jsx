@@ -7,9 +7,10 @@ import Swal from "sweetalert2";
 import SchemePageLayout from "../../components/SchemePageLayout";
 import { useSchemeDetailsStore } from "../../store/schemeStore";
 import { DateTimeFormatter } from "../../helper/dateTime";
-import { fetchDdoAllocationDetails, fetchOmmasBudgetAllocationDetails } from "../../services/tpiService";
+import { ddoAllocationSend2Ommas, fetchDdoAllocationDetails, fetchOmmasDdoAllocationDetails } from "../../services/tpiService";
 import { sendData2SchemeApi } from "../../config/config";
 import { getFY } from "../../helper/finYear";
+import { useNavigate } from "react-router-dom";
 
 export function DdoAllocationSend2Scheme() {
     const { slsCode, cssCode } = useSchemeDetailsStore();
@@ -20,6 +21,7 @@ export function DdoAllocationSend2Scheme() {
     const [sendBtn, setSendBtn] = useState(false);
     const [ms, setMs] = useState("");
     const [finYear, setFinYear] = useState('');
+    const navigate = useNavigate();
 
     const columns = [
         { key: 'ddoName', header: 'DDO Name' },
@@ -30,6 +32,63 @@ export function DdoAllocationSend2Scheme() {
         { key: 'status', header: 'Sent Status' },
         { key: 'SentTimestamp', header: 'Sent Timestamp' },
     ];
+    const columns4Ommas = [
+        { key: 'agencyId', header: 'Agency' },
+        { key: 'ddo', header: 'DDO' },
+        { key: 'treasury', header: 'Treasury' },
+        { key: 'district', header: 'District Code' },
+        { key: 'limitForAgency', header: 'Limit for Agency' },
+        { key: 'ddoAllotmentAmount', header: 'Ddo Allotment' },
+        { key: 'SentTimestamp', header: 'Sent Timestamp' },
+        { key: 'status', header: 'Sent Status' },
+    ];
+
+    const handleSend = async (item) => {
+        try {
+            setLoading(true); // loader start
+
+            const payload = {
+                slsCode: slsCode,
+                stateLgdCode: "19",
+                distLgdCode: String(item.distLgdCode)
+            }
+
+            const res = await ddoAllocationSend2Ommas(payload); // তোমার API call
+
+            console.log('ommas ddo allocation response', res);
+
+            Swal.fire({
+                title: '✅ Success!',
+                text: `Response: Ddo Allocation Details Send Successfully for the district ${item.distLgdCode}`,
+                icon: 'success',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate(0);
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                title: '❌ Failed!',
+                text: 'Something went wrong while calling API.',
+                icon: 'error',
+            });
+        } finally {
+            setLoading(false); // loader stop
+        }
+    };
+
+    const getOmmasSentStatus = (item) => {
+        if (item.ommasSentStatus === '0') return (<button
+            onClick={() => handleSend(item)}
+            // disabled={loading}
+            className="bg-blue-500 text-white px-3 py-1 rounded disabled:opacity-50"
+        >
+            Send
+        </button>);
+        if (item.ommasSentStatus === '1') return "Failed";
+        return item.ommasSentStatusDescription;
+    };
 
     useEffect(() => {
         const loadData = async () => {
@@ -62,17 +121,18 @@ export function DdoAllocationSend2Scheme() {
                         });
                         break;
                     case 9179:
-                        data = await fetchOmmasBudgetAllocationDetails({ slsCode: slsCode, finYear: FY });
+                        data = await fetchOmmasDdoAllocationDetails({ slsCode: slsCode, finYear: FY });
                         setFinYear(data.finYear);
                         data.data.forEach((item, i) => {
                             const row = {
-                                ddoName: item.ddoName,
-                                ddoCode: item.ddoCode,
-                                treasName: item.treasName,
-                                treasCode: item.treasCode,
-                                limitForAgency: item.limitForAgency,
+                                agencyId: item.agencyId,
+                                ddo: `${item.ddoName}(${item.ddoCode})`,
+                                treasury: `${item.treasName}(${item.treasCode})`,
+                                district: item.distLgdCode,
+                                limitForAgency: item.limitAgency,
+                                ddoAllotmentAmount: item.ddoAllotmentAmount,
                                 SentTimestamp: (item.ommasSentTimestamp !== null) ? DateTimeFormatter(item.ommasSentTimestamp) : "-",
-                                status: (item.ommasSentStatus === '1') ? "Failed" : item.ommasSentStatusDescription,
+                                status: getOmmasSentStatus(item)
                             };
                             if (item.ommasSentStatus === "2") {
                                 tableDataSend.push(row);
@@ -145,11 +205,30 @@ export function DdoAllocationSend2Scheme() {
             </>
         }
     ];
+    const contentsData4Ommas = [
+        { id: 1, title: "Sent", content: <Table tableName='Sent' columns={columns4Ommas} data={sendList} rowsPerPage={3} /> },
+        {
+            id: 2, title: "Yet to Send", content: <>
+                <Table tableName='Yet to Send' columns={columns4Ommas} data={yet2SendList} rowsPerPage={2} />
+                {/* {sendBtn && (
+                    <div className='flex justify-center'>
+                        <Btn
+                            label={loading ? "Sending..." : "Sent DdoAllocation Data"}
+                            variant="success"
+                            size="xxl"
+                            disabled={loading}
+                            onClick={sendData}
+                        />
+                    </div>
+                )} */}
+            </>
+        }
+    ];
 
     return (<>
         <SchemePageLayout>
             <div className='min-h/2-screen bg-gradient-to-br from-indigo-100 to-white w-full'>
-                <Tabs tab contentsData={contentsData} bodyWidth="185%" />
+                <Tabs tab contentsData={(cssCode === 9179) ? contentsData4Ommas : contentsData} bodyWidth="185%" />
             </div>
         </SchemePageLayout>
 

@@ -1,10 +1,10 @@
-import { agencyDetailsSend2Nrlm, agencyDetailsSend2Ommas, budgetAllocationSend, ddoAllocationSend2Nrlm, fetchBudgetAllocationDetails, msDetailsSend2Nrlm, msDetailsSend2Ommas, slsDetailsSend2Nrlm, slsDetailsSend2Ommas } from "../services/tpiService";
+import { agencyDetailsSend2Nrlm, agencyDetailsSend2Ommas, budgetAllocationSend, componentSend2Ommas, ddoAllocationSend2Nrlm, ddoAllocationSend2Ommas, fetchBudgetAllocationDetails, msDetailsSend2Nrlm, msDetailsSend2Ommas, slsDetailsSend2Nrlm, slsDetailsSend2Ommas } from "../services/tpiService";
 
 export const sendData2SchemeApi = [
   { slsCode: 'WB3', slsFn: slsDetailsSend2Nrlm, agencyFn: agencyDetailsSend2Nrlm, msFn: msDetailsSend2Nrlm, daFn: ddoAllocationSend2Nrlm, baFn: budgetAllocationSend },
   { slsCode: 'WB144', slsFn: slsDetailsSend2Nrlm, agencyFn: agencyDetailsSend2Nrlm, msFn: msDetailsSend2Nrlm, daFn: ddoAllocationSend2Nrlm, baFn: budgetAllocationSend },
   { slsCode: 'WB247', slsFn: slsDetailsSend2Nrlm, agencyFn: agencyDetailsSend2Nrlm, msFn: msDetailsSend2Nrlm, daFn: ddoAllocationSend2Nrlm, baFn: budgetAllocationSend },
-  { slsCode: 'WB70', slsFn: slsDetailsSend2Ommas, agencyFn: agencyDetailsSend2Ommas, msFn: msDetailsSend2Ommas, daFn: ddoAllocationSend2Nrlm, ComFn: budgetAllocationSend },
+  { slsCode: 'WB70', slsFn: slsDetailsSend2Ommas, agencyFn: agencyDetailsSend2Ommas, msFn: msDetailsSend2Ommas, daFn: ddoAllocationSend2Ommas, ComFn: componentSend2Ommas },
 ]
 
 export const menuDataNrlm = [
@@ -63,7 +63,7 @@ export const menuDataOmmas = [
     items: [
       { label: "SLS Data", icon: "database", to: "/send-data-to-department/sls" },
       { label: "Agency Data", icon: "university", to: "/send-data-to-department/agency" },
-      { label: "Component (ommas)", icon: "file", to: "/component" },
+      { label: "Component (ommas)", icon: "file", to: "/send-data-to-department/component" },
     ],
   },
   {

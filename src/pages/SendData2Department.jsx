@@ -6,6 +6,7 @@ import { DdoAllocationSend2Scheme } from "../Module/TPI/DdoAllocationSend2Scheme
 import { FetchMSFromJit } from "../Module/TPI/FetchMSFromJit";
 import { FetchStateSanctionFromJit } from "../Module/TPI/FetchStateSanctionFromJit";
 import { BudgetAllocationSend2Scheme } from "../Module/TPI/BudgetAllocationSend2Scheme";
+import { ComponentSend2Scheme } from "../Module/TPI/ComponentSend2Scheme";
 
 export function SendData2Department() {
     const { param } = useParams();
@@ -25,6 +26,8 @@ export function SendData2Department() {
             return <DdoAllocationSend2Scheme />
         } else if (param === 'budget-allocation') {
             return <BudgetAllocationSend2Scheme />
+        } else if (param === 'component') {
+            return <ComponentSend2Scheme />
         } else {
             return <div>Invalid Scheme</div>;
         }

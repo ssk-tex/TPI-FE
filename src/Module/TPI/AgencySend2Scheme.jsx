@@ -119,7 +119,7 @@ export function AgencySend2Scheme() {
             const resp = await slsData.agencyFn({ "slsCode": slsData.slsCode });
             Swal.fire({
                 title: '✅ Success!',
-                text: `Response: Agency Details Send Successfully`,
+                text: `Agency Details Send Successfully`,
                 icon: 'success',
             });
         } catch (error) {

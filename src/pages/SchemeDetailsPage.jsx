@@ -7,6 +7,7 @@ import Card from '../components/Card';
 import { useSchemeDetailsStore, useSchemeStore } from '../store/schemeStore';
 import { useSchemeMenuStore } from '../store/schemeStore';
 import { useNavigate } from 'react-router-dom';
+import Dashboard from '../Module/Dashboard/Dashboard';
 
 const SchemeDetailsPage = () => {
   // const {schemeName} = useSchemeDetailsStore();
@@ -38,7 +39,7 @@ const SchemeDetailsPage = () => {
       <div className="flex ">
         <Sidebar />
         <main className="flex-1 ml-80 min-h-screen bg-gradient-to-br from-indigo-100 to-white p-8">
-          <h1 className="text-4xl font-extrabold text-indigo-700 mb-10 text-center drop-shadow">
+          {/* <h1 className="text-4xl font-extrabold text-indigo-700 mb-10 text-center drop-shadow">
             🌟 Welcome to the Dashboard {schemeName} 🌟
           </h1>
 
@@ -48,7 +49,8 @@ const SchemeDetailsPage = () => {
                 <Card key={i} value={menu.label} onSelect={handleCardClick} />
               ))
             }
-          </div>
+          </div> */}
+          <Dashboard />
         </main>
       </div>
       <Footer />

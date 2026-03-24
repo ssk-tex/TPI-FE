@@ -1,7 +1,8 @@
 import axios from "axios";
-import { URL } from "../environment/env";
+import { dotnetURL, URL } from "../environment/env";
 
 const url = URL;
+const dotnetUrl = dotnetURL;
 
 /* -------------------------------- scheme list ----------------------------------------- */
 export const getSchemeList = async (payload) => {
@@ -226,14 +227,14 @@ export const fetchOmmasDdoAllocationDetails = async (payload) => {
   }
 }
 /* ------------------------------------ fetch budget allocation ------------------------------- */
-export const fetchOmmasBudgetAllocationDetails = async (payload) => {
-  try {
-    const response = await axios.post(`${url}/Nrlm/fetch-sls-budget-head`, payload);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
+// export const fetchOmmasBudgetAllocationDetails = async (payload) => {
+//   try {
+//     const response = await axios.post(`${url}/Nrlm/fetch-sls-budget-head`, payload);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 /* ------------------------------------ fetch COMPONENT ------------------------------- */
 export const fetchOmmasComponentDetails = async (payload) => {
   try {
@@ -247,7 +248,7 @@ export const fetchOmmasComponentDetails = async (payload) => {
 /* ############################# SLS ################################## */
 export const slsDetailsSend2Ommas = async (payload) => {
   try {
-    const response = await axios.post(`${url}/Ommas/send-sls-details`, payload, {
+    const response = await axios.post(`${dotnetUrl}/Ommas/send-sls-details`, payload, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -273,7 +274,7 @@ export const agencyDetailsSend2Ommas = async (payload) => {
 /* ############################# MS ################################## */
 export const msDetailsSend2Ommas = async (payload) => {
   try {
-    const response = await axios.post(`${url}/ommas/send-mother-sanction-details`, payload, {
+    const response = await axios.post(`${dotnetUrl}/ommas/send-mother-sanction-details`, payload, {
       headers: {
         "Content-Type": "application/json",
       }
@@ -284,18 +285,31 @@ export const msDetailsSend2Ommas = async (payload) => {
   }
 }
 /* ############################# DDO Allocation ################################## */
-// export const ddoAllocationSend2Nrlm = async (payload) => {
-//   try {
-//     const response = await axios.post(`${url}/Nrlm/send-ddo-allocation-nrlm`, payload, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       }
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
+export const ddoAllocationSend2Ommas = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/ommas/send-ddo-allotment-details`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+/* ############################# Component ################################## */
+export const componentSend2Ommas = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/ommas/send-component-details`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
                                                                         MIS 

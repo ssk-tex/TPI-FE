@@ -7,7 +7,7 @@ export default function Card({ value, onSelect }) {
   }
   
   return (
-    <div className="w-[20vw] h-[35vh] bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 text-center border border-indigo-100">
+    <div className="w-[20vw] h-[20vh] bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 text-center border border-indigo-100">
       <h2 className="text-xl font-semibold text-indigo-800">{value}</h2>
         <button
             className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-800 transition inline-flex items-center cursor-pointer shadow-md"

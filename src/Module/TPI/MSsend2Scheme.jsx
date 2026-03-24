@@ -56,12 +56,12 @@ export function MSsend2Scheme() {
                         });
                         break;
                     case 9179:
-                        data = await fetchOmmasMSDetails({ slsCode: slsCode, finYear: FY });
+                        data = await fetchOmmasMSDetails({ slsCode: slsCode, finYear: FY.split("-")[0] });
                         setFinYear(data.finYear);
                         data.data.forEach((item, i) => {
                             const row = {
                                 motherSanctionNo: item.motherSancOrderNumber,
-                                motherSanctionDate: item.motherSanctionDate.split("-").reverse().join("-"),
+                                motherSanctionDate: item.motherSancOrderDate.split("-").reverse().join("-"),
                                 totalAmount: item.stateSancOrderAmt,
                                 SentTimestamp: (item.omamsSentTimestamp !== null) ? DateTimeFormatter(item.omamsSentTimestamp) : "-",
                                 status: (item.ommasSentStatus === '1') ? "Failed" : item.ommasSentStatusDescription,
@@ -70,6 +70,9 @@ export function MSsend2Scheme() {
                                 tableDataSend.push(row);
                             } else {
                                 tableDataYet2Send.push(row);
+                                if (tableDataYet2Send.length > 0){
+                                    setSendBtn(true)
+                                }
                                 // setSendBtn(true);
                             }
                         });
@@ -80,7 +83,9 @@ export function MSsend2Scheme() {
                 }
                 setSendList(tableDataSend);
                 setYet2SendList(tableDataYet2Send);
-                if (yet2SendList.length > 0) {setSendBtn(true);}
+                // if (yet2SendList.length > 0) {
+                //     setSendBtn(true)
+                // }
             } catch (error) {
                 console.log('error message', error.message);
 
@@ -105,7 +110,7 @@ export function MSsend2Scheme() {
         const [{ motherSanctionNo }] = yet2SendList;
 
         const payLoad = {
-            motherSanctionNo: motherSanctionNo, slsCode: slsData.slsCode, finYear: finYear
+            motherSanctionNo: motherSanctionNo, slsCode: slsData.slsCode, finYear: finYear.split("-")[0]
         }
 
         try {

@@ -185,47 +185,23 @@ export function FetchStateSanctionFromJit() {
                     })
                 }
             });
-            const payload = { sanctions: ws }
+            const payload = ws[0]
             try {
                 const resp = await generateWalletSanction(payload);
-                const response = resp.details.map(item => ({ motherSancNo: item.motherSancNo, message: item.message, status: item.success }));
-                const allTrue = response.every(item => item.status === true);
-                const allFalse = response.every(item => item.status === false);
-                if (allTrue) {
+                if (resp.overallSuccess === true) {
                     Swal.fire({
                         title: '✅ Success!',
-                        text: `Wallet generated successfully`,
+                        text: `${resp.detail.message}`,
                         icon: 'success',
                     });
-                } else if (allFalse) {
-                    const failedList = response.filter(item => item.status === false);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Failed",
-                        html: `
-                        <div style="text-align:left;">
-                            <b>The following mother sanction(s) failed:</b><br><br>
-                            ${failedList
-                                .map(x => `• <b>${x.motherSancNo}</b> — ${x.message}`)
-                                .join("<br>")}
-                            </div>
-                        `,
-                        confirmButtonText: "OK",
-                    });
+                    setTimeout(() => {
+                        navigate(0);
+                    }, 2000);
                 } else {
-                    const failedList = response.filter(item => item.status === false);
                     Swal.fire({
-                        icon: "warning",
-                        title: "Warning",
-                        html: `
-                        <div style="text-align:left;">
-                            <b>The following mother sanction(s) failed:</b><br><br>
-                            ${failedList
-                                .map(x => `• <b>${x.motherSancNo}</b> — ${x.message}`)
-                                .join("<br>")}
-                            </div>
-                        `,
-                        confirmButtonText: "OK",
+                        title: '❌ Failed!',
+                        text: `${resp.detail.error.errorMessage}`,
+                        icon: 'error',
                     });
                 }
             } catch (error) {
@@ -249,55 +225,25 @@ export function FetchStateSanctionFromJit() {
                         cssCode: item.css,
                         motherSancNo: item.ms_no,
                         schemeName: schemeName
-                    })
+                    });
                 }
             });
-            const payload = { sanctions: ws }
+            const payload = ws[0];
             try {
                 const resp = await sentSanction(payload);
-                const response = resp.details.map(item => ({ motherSancNo: item.motherSancNo, message: item.message, status: item.success }));
-                const allTrue = response.every(item => item.status === true);
-                const allFalse = response.every(item => item.status === false);
-                if (allTrue) {
+                if (resp.overallSuccess === true) {
                     Swal.fire({
                         title: '✅ Success!',
-                        text: `All sanctions sent to scheme successfully`,
+                        text: `${resp.detail.message}`,
                         icon: 'success',
                     });
-                } else if (allFalse) {
-                    const failedList = response.filter(item => item.status === false);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Failed",
-                        html: `
-                                <div style="text-align:left;">
-                                    <b>The following mother sanction(s) failed:</b><br><br>
-                                    ${failedList
-                                .map(x => `• <b>${x.motherSancNo}</b> — ${x.message}`)
-                                .join("<br>")}
-                                    </div>
-                                            `,
-                        confirmButtonText: "OK",
-                    });
                 } else {
-                    const failedList = response.filter(item => item.status === false);
                     Swal.fire({
-                        icon: "warning",
-                        title: "Warning",
-                        html: `
-                                            <div style="text-align:left;">
-                                                <b>The following mother sanction(s) failed:</b><br><br>
-                                                ${failedList
-                                .map(x => `• <b>${x.motherSancNo}</b> — ${x.message}`)
-                                .join("<br>")}
-                                                </div>
-                                            `,
-                        confirmButtonText: "OK",
+                        title: '❌ Failed!',
+                        text: `${resp.detail.error.errorMessage}`,
+                        icon: 'error',
                     });
                 }
-                setTimeout(() => {
-                    navigate(0);
-                }, 2000)
             } catch (error) {
                 console.log(error);
 
