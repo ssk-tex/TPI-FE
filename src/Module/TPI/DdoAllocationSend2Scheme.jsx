@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import SchemePageLayout from "../../components/SchemePageLayout";
 import { useSchemeDetailsStore } from "../../store/schemeStore";
 import { DateTimeFormatter } from "../../helper/dateTime";
-import { ddoAllocationSend2Ommas, fetchDdoAllocationDetails, fetchOmmasDdoAllocationDetails } from "../../services/tpiService";
+import { ddoAllocationSend2Ommas, fetchDdoAllocationDetails, fetchOmmasDdoAllocationDetails, fetchVBGRAMGDdoAllocationDetails } from "../../services/tpiService";
 import { sendData2SchemeApi } from "../../config/config";
 import { getFY } from "../../helper/finYear";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +41,16 @@ export function DdoAllocationSend2Scheme() {
         { key: 'ddoAllotmentAmount', header: 'Ddo Allotment' },
         { key: 'SentTimestamp', header: 'Sent Timestamp' },
         { key: 'status', header: 'Sent Status' },
+    ];
+
+    const columns4VBGRAMG = [
+        { key: 'ddo', header: 'DDO' },
+        { key: 'treasury', header: 'Treasury' },
+        { key: 'snaUniqueAgencyCode', header: 'SNA Unique Agency Code' },
+        { key: 'agency', header: 'Agency' },
+        { key: 'ms', header: 'Mother Sanction' },
+        { key: 'ss', header: 'State Sanction' },
+        { key: 'ddoAllotment', header: 'Ddo Allotment' }
     ];
 
     const handleSend = async (item) => {
@@ -143,6 +153,21 @@ export function DdoAllocationSend2Scheme() {
                             }
                         });
                         break;
+                    case 4497:
+                        data = await fetchVBGRAMGDdoAllocationDetails({ slsCode: slsCode });
+                        data.data.forEach((item, i) => {
+                            const row = {
+                                ddo: `${item.ddo_name}(${item.ddo_code})`,
+                                treasury: `${item.treasName}(${item.treasCode})`,
+                                snaUniqueAgencyCode: item.sna_unique_agency_code,
+                                agency: item.agency_code,
+                                ms: item.mother_sanction_no,
+                                ss: item.state_sanction_no,
+                                ddoAllotment: `₹ ${item.total_ddo_allotment_amount}`
+                            };
+                            tableDataSend.push(row);
+                        });
+                        break;
                     default:
                         break;
                 }
@@ -224,11 +249,23 @@ export function DdoAllocationSend2Scheme() {
             </>
         }
     ];
+    const contentsData4VBGRAMG = [
+        { id: 1, title: "Sent", content: <Table tableName='Sent' columns={columns4VBGRAMG} data={sendList} rowsPerPage={3} /> },
+    ];
 
     return (<>
         <SchemePageLayout>
             <div className='min-h/2-screen bg-gradient-to-br from-indigo-100 to-white w-full'>
-                <Tabs tab contentsData={(cssCode === 9179) ? contentsData4Ommas : contentsData} bodyWidth="185%" />
+                {
+                    cssCode === 9181 ?
+                        (<Tabs tab contentsData={contentsData} bodyWidth="185%" />)
+                        : cssCode === 9179 ?
+                            (<Tabs tab contentsData={contentsData4Ommas} bodyWidth="185%" />)
+                            : cssCode === 4497 ?
+                                (<Tabs tab contentsData={contentsData4VBGRAMG} bodyWidth="185%" />)
+                                : null
+                }
+                {/* <Tabs tab contentsData={(cssCode === 9179) ? contentsData4Ommas : contentsData} bodyWidth="185%" /> */}
             </div>
         </SchemePageLayout>
 

@@ -7,7 +7,7 @@ import SchemePageLayout from "../../components/SchemePageLayout";
 import { useSchemeDetailsStore } from "../../store/schemeStore";
 // import { agencyDetailsSend, fetchAgencyDetails } from "../../services/nrlmService";
 import { DateTimeFormatter } from "../../helper/dateTime";
-import { fetchAgencyDetails, fetchOmmasAgencyDetails } from "../../services/tpiService";
+import { fetchAgencyDetails, fetchOmmasAgencyDetails, fetchVBGRAMGAgencyDetails } from "../../services/tpiService";
 import { sendData2SchemeApi } from "../../config/config";
 
 export function AgencySend2Scheme() {
@@ -83,6 +83,32 @@ export function AgencySend2Scheme() {
                                 tableDataYet2Send.push(row);
                                 setSendBtn(true);
                             }
+                        });
+                        break;
+                    case 4497:
+                        data = await fetchVBGRAMGAgencyDetails({ slsCode: slsCode });
+                        data.data.forEach((item, i) => {
+                            const row = {
+                                parentAgencyCode: item.parent_agency_code,
+                                agencyCode: item.agency_code,
+                                agencyName: item.agency_name,
+                                ddoCode: item.ddo_code,
+                                ddoName: item.ddo_name,
+                                treasCode: item.treas_code,
+                                treasName: item.treas_name,
+
+                                // snaAgencyName: item.sna_agency_name,
+                                // snaUniqueAgencyCode: item.sna_unique_agency_code,
+                                // centreBudgetHead: item.centre_budget_head,
+                                // stateBudgetHead: item.state_budget_head,
+                                // districtName: item.district_name,
+                                // districtCode: item.district_code,
+                                SentTimestamp: "-",
+                                // SentTimestamp: (item.ommasSentTimestamp !== null) ? DateTimeFormatter(item.ommasSentTimestamp) : "-",
+                                // status: (item.ommasSentStatus === '1') ? "Failed" : item.ommasSentStatusDescription,
+                                status: "-",
+                            };
+                            tableDataSend.push(row);
                         });
                         break;
                     default:

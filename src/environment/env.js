@@ -12,9 +12,9 @@ const dotnetLSB = "http://localhost:5152/api/v1";
 
 // -- uat --
 const PSB = "https://train-ifms.wb.gov.in/wbjit_integration_tpi_utils/v1"; 
-const dotnetPSB = "http://train-ifms.wb.gov.in/wbjitintegration-uat/api/v1";
+// const dotnetPSB = "http://train-ifms.wb.gov.in/wbjitintegration-uat/api/v1";
 // const dotnetPSB = "https://ifms.wb.gov.in/wbjitintegration-live/api/v1";
-// const dotnetPSB = "";
+const dotnetPSB = "http://localhost:5152/api/v1";
 
 export const isDev = false;
 

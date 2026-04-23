@@ -312,6 +312,47 @@ export const componentSend2Ommas = async (payload) => {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+                                                            VBG RAM G
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* -------------------------------------- Fetch SLS ------------------------------------------------ */
+export const fetchVBGRAMGSlsDetails = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/Vbgramg/fetch-sls-details`, payload);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+/* ------------------------------------------------ Fetch Agency --------------------------------------- */
+export const fetchVBGRAMGAgencyDetails = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/Vbgramg/fetch-agency-details`, payload);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+/* ------------------------------- fetch mother-sanction --------------------------------- */
+export const fetchVBGRAMGMSDetails = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/Vbgramg/fetch-mother-sanction`, payload);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+/* --------------------------------- fetch ddo allocation ------------------------------ */
+export const fetchVBGRAMGDdoAllocationDetails = async (payload) => {
+  try {
+    const response = await axios.post(`${dotnetUrl}/Vbgramg/fetch-ddo-allocation`, payload);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
                                                                         MIS 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 export const fetchMisReport4Fto = async (payload) => {

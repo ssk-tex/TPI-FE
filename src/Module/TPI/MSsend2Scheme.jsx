@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import SchemePageLayout from "../../components/SchemePageLayout";
 import { useSchemeDetailsStore } from "../../store/schemeStore";
 import { DateTimeFormatter } from "../../helper/dateTime";
-import { fetchMSDetails, fetchOmmasMSDetails } from "../../services/tpiService";
+import { fetchMSDetails, fetchOmmasMSDetails, fetchVBGRAMGMSDetails } from "../../services/tpiService";
 import { sendData2SchemeApi } from "../../config/config";
 import { getFY } from "../../helper/finYear";
 
@@ -70,11 +70,24 @@ export function MSsend2Scheme() {
                                 tableDataSend.push(row);
                             } else {
                                 tableDataYet2Send.push(row);
-                                if (tableDataYet2Send.length > 0){
+                                if (tableDataYet2Send.length > 0) {
                                     setSendBtn(true)
                                 }
                                 // setSendBtn(true);
                             }
+                        });
+                        break;
+                    case 4497:
+                        data = await fetchVBGRAMGMSDetails({ slsCode: slsCode });
+                        data.data.forEach((item, i) => {
+                            const row = {
+                                motherSanctionNo: item.mother_sanction_no,
+                                motherSanctionDate: item.mother_sanction_date.split("T").reverse().join("-"),
+                                totalAmount: item.mother_sanction_total_amount,
+                                SentTimestamp: "-",
+                                status: "-"
+                            };
+                            tableDataSend.push(row);
                         });
                         break;
                     default:

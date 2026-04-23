@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import SchemePageLayout from "../../components/SchemePageLayout";
 import { useSchemeDetailsStore } from "../../store/schemeStore";
 import { DateTimeFormatter } from "../../helper/dateTime";
-import { fetchOmmasSlsDetails, fetchSlsDetails } from "../../services/tpiService";
+import { fetchOmmasSlsDetails, fetchSlsDetails, fetchVBGRAMGSlsDetails } from "../../services/tpiService";
 import { sendData2SchemeApi } from "../../config/config";
 
 export function SLSSend2Scheme() {
@@ -76,6 +76,24 @@ export function SLSSend2Scheme() {
                                 tableDataYet2Send.push(row);
                                 setSendBtn(true);
                             }
+                        });
+                        break;
+                    case 4497:
+                        data = await fetchVBGRAMGSlsDetails({cssScheme:String(cssCode)});
+                        data.data.forEach((item, i) => {
+                            const row = {
+                                snaAgencyName: item.sna_agency_name,
+                                snaUniqueAgencyCode: item.sna_unique_agency_code,
+                                centreBudgetHead: item.centre_budget_head,
+                                stateBudgetHead: item.state_budget_head,
+                                districtName: item.district_name,
+                                districtCode: item.district_code,
+                                SentTimestamp: "-",
+                                // SentTimestamp: (item.ommasSentTimestamp !== null) ? DateTimeFormatter(item.ommasSentTimestamp) : "-",
+                                // status: (item.ommasSentStatus === '1') ? "Failed" : item.ommasSentStatusDescription,
+                                status: "-",
+                            };
+                            tableDataSend.push(row);
                         });
                         break;
                     default:
